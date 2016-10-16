@@ -1,2 +1,1 @@
-#### Iterator
-[Refer this] (./src/main/java/org/idey/algo/iterator/readme.md)
+##### 1. [Iterator] (./src/main/java/org/idey/algo/iterator/readme.md)
