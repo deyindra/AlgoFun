@@ -36,10 +36,11 @@ public class PowersetIteratorTest {
         }else{
             iterator = new PowersetIterator<>(sets);
         }
-
+        Assert.assertTrue(iterator.hasNext()==finalIterator.hasNext());
         while (iterator.hasNext()){
             Assert.assertEquals(iterator.next(),finalIterator.next());
         }
+        Assert.assertTrue(iterator.hasNext()==finalIterator.hasNext());
     }
 
     private Object[] successIteratorTestParam() {

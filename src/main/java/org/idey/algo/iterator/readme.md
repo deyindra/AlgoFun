@@ -31,4 +31,13 @@ All type of Iterators and their usage
          //print [1,2,3],[2,3,4],[1,3,4],[1,2,4],[1,2,3,4]
         System.out.println(powerSet.next());
     }
+##### 4. TransformationIterator
+    Function<Integer,Integer> function = integer -> integer+2;
+    Iterator<Integer> it = Arrays.asList(1,2,3).iterator();
+    Iterator<Integer> transformationIterator =
+                    new TransformationIterator<>(it,function);
+    while (transformationIterator.hasNext()){
+         //print 3,4,5
+         System.out.println(transformationIterator.next());
+    }
     

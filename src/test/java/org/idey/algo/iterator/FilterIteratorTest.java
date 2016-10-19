@@ -26,9 +26,11 @@ public class FilterIteratorTest {
     public <T> void successIteratorTest(Iterator<T> inputIterator, Predicate<T> predicate,
                                         Iterator<T> finalIterator){
         Iterator<T> filterIterator = new FilterIterator<>(predicate, inputIterator);
+        Assert.assertTrue(filterIterator.hasNext()==finalIterator.hasNext());
         while (filterIterator.hasNext()){
             Assert.assertEquals(filterIterator.next(),finalIterator.next());
         }
+        Assert.assertTrue(filterIterator.hasNext()==finalIterator.hasNext());
     }
 
     private Object[] successIteratorTestParam() {
@@ -36,6 +38,7 @@ public class FilterIteratorTest {
                 new Object[]{Arrays.asList(1,2,3,4).iterator(),evenPredicate(), Arrays.asList(2,4).iterator()},
                 new Object[]{Arrays.asList(2,2).iterator(),evenPredicate(), Arrays.asList(2,2).iterator()},
                 new Object[]{Collections.singletonList(2).iterator(),evenPredicate(), Collections.singletonList(2).iterator()},
+                new Object[]{Collections.emptyList().iterator(),evenPredicate(), Collections.emptyList().iterator()}
         };
     }
 

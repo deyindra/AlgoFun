@@ -2,6 +2,7 @@ package org.idey.algo.iterator;
 
 
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -63,12 +64,8 @@ public class PowersetIterator<E> implements Iterator<Set<E>> {
         this.maxSize = Math.min(maxSize, set.size());
         arr = (E[]) set.toArray();
         bset = new BitSet(arr.length + 1);
-        if(set.isEmpty()){
-            bset.set(0);
-        }else {
-            for (int i = 0; i < minSize; i++) {
-                bset.set(i);
-            }
+        for (int i = 0; i < minSize; i++) {
+            bset.set(i);
         }
     }
 
@@ -94,17 +91,21 @@ public class PowersetIterator<E> implements Iterator<Set<E>> {
             throw new NoSuchElementException("No more elements");
         }
         Set<E> returnSet = new HashSet<>();
-        for (int i = 0; i < arr.length; i++) {
-            if (bset.get(i)) {
-                returnSet.add(arr[i]);
+        if(arr.length>0) {
+            for (int i = 0; i < arr.length; i++) {
+                if (bset.get(i)) {
+                    returnSet.add(arr[i]);
+                }
             }
-        }
 
-        int count;
-        do {
-            incrementBitSet();
-            count = countBitSet();
-        } while ((count < minSize) || (count > maxSize));
+            int count;
+            do {
+                incrementBitSet();
+                count = countBitSet();
+            } while ((count < minSize) || (count > maxSize));
+        }else{
+            bset.set(0);
+        }
         return returnSet;
     }
 
@@ -137,6 +138,5 @@ public class PowersetIterator<E> implements Iterator<Set<E>> {
         return count;
 
     }
-
 
 }
