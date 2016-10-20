@@ -40,4 +40,20 @@ All type of Iterators and their usage
          //print 3,4,5
          System.out.println(transformationIterator.next());
     }
+##### 4. FileContentIterator (_please make sure that this Iterator must called with try with resource_)
+    /**
+    * Contents of abc.txt are integers 
+    * 1
+    * 2
+    * 3
+    * 4
+    * 
+    **/
+    DeSerialize<Integer> deserializer = str ->Integer.parseInt(str);
+    try(ClosableResourceIterator<Integer> fileIterator = new FileContentIterator<>("abc.txt",deserializer)){
+        while(fileIterator.hasNext()){
+            //print 1,2,3,4
+            System.out.println(fileIterator.next());
+        }
+    }
     

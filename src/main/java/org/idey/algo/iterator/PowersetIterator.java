@@ -2,7 +2,6 @@ package org.idey.algo.iterator;
 
 
 import java.util.BitSet;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
