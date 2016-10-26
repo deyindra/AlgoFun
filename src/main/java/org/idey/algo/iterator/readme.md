@@ -56,4 +56,9 @@ All type of Iterators and their usage
             System.out.println(fileIterator.next());
         }
     }
-    
+##### 4. MedianIterator
+    Iterator<Integer> it = new MedianIterator<>(new Integer[]{3,1,2,4,6}, 3);
+    while(it.hasNext()){
+        //print 2,2,4
+        System.out.println(it.next());
+    }

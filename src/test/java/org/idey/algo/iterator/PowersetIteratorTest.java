@@ -62,6 +62,17 @@ public class PowersetIteratorTest {
                 },
                 new Object[]{new HashSet<>(Collections.emptyList()),Optional.empty(),
                         Collections.singleton(new HashSet<>(Collections.emptyList())).iterator()
+                },
+                new Object[]{new HashSet<>(Arrays.asList(1,2,3)), Optional.empty(),
+                    Arrays.asList(Collections.emptySet(),
+                            new HashSet<>(Collections.singleton(1)),
+                            new HashSet<>(Collections.singleton(2)),
+                            new HashSet<>(Arrays.asList(1,2)),
+                            new HashSet<>(Collections.singleton(3)),
+                            new HashSet<>(Arrays.asList(1,3)),
+                            new HashSet<>(Arrays.asList(2,3)),
+                            new HashSet<>(Arrays.asList(1,2,3))
+                            ).iterator()
                 }
 
         };
