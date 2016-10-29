@@ -1,9 +1,12 @@
 package org.idey.algo.iterator;
 
+import org.idey.algo.util.AssertJ;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
+import java.util.function.Predicate;
 
 /**
  * {@link Iterator} which will return median from a sorted object
@@ -36,13 +39,9 @@ public class MedianIterator<T extends Comparable<T>> implements Iterator<T> {
      * @param size window size
      * @throws  IllegalArgumentException in case array is null or empty and size is &lt;&#61;0 or size&gt;array.length
      */
-    public MedianIterator(T[] array, int size) {
-        if(array==null || array.length==0){
-            throw new IllegalArgumentException("Invalid Array");
-        }
-        if(size<=0 || size>array.length){
-            throw new IllegalArgumentException("Invalid window size");
-        }
+    public MedianIterator(final T[] array, int size) {
+        AssertJ.assertTrue(ts -> ts!=null && ts.length>0, array, "Invalid Array");
+        AssertJ.assertTrue(i->i>0 && i<=array.length, size, "Invalid window size");
         this.array = array;
         this.size = size;
         maxHeap.offer(this.array[currentIndex]);

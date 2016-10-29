@@ -40,7 +40,7 @@ All type of Iterators and their usage
          //print 3,4,5
          System.out.println(transformationIterator.next());
     }
-##### 4. FileContentIterator (_please make sure that this Iterator must called with try with resource_)
+##### 5. FileContentIterator (_please make sure that this Iterator must called with try with resource_)
     /**
     * Contents of abc.txt are integers 
     * 1
@@ -56,9 +56,15 @@ All type of Iterators and their usage
             System.out.println(fileIterator.next());
         }
     }
-##### 4. MedianIterator
+##### 6. MedianIterator
     Iterator<Integer> it = new MedianIterator<>(new Integer[]{3,1,2,4,6}, 3);
     while(it.hasNext()){
         //print 2,2,4
+        System.out.println(it.next());
+    }
+##### 7. SlidingWindowIterator
+    Iterator<Integer> it = new SlidingWindowIterator<>(Arrays.asList(1,2,3,4,5,6).iterator, 3,2);
+    while(it.hasNext()){
+        //print [1,2,3], [3,4,5], [5,6]
         System.out.println(it.next());
     }
