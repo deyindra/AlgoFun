@@ -97,7 +97,7 @@ jacocoTestReport {
         metrics.each {
             def limit = limits[it.key]
             if (it.value < limit) {
-                failures.add("- ${it.key} coverage rate is: ${it.value}%, minimum is ${limit}%")
+                failures.add("- ${it.key} coverage org.idey.algo.rate is: ${it.value}%, minimum is ${limit}%")
             }
         }
 
