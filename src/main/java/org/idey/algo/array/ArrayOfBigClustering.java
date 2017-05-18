@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 public class ArrayOfBigClustering {
 
-    public static <T> boolean isSafe(T[][] array, boolean[][] visted,
+     public static <T> boolean isSafe(T[][] array, boolean[][] visted,
                                      int rowIndex,
                                      int colIndex,Predicate<T> predicate){
         final int ROW = array.length;
