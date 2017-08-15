@@ -49,8 +49,8 @@ public class SubArraySumProduct {
     }
 
     public static void main(String[] args) {
-        int arr[] = {0,-1,-2,7};
-        System.out.println(new SumSubArray().calculate(arr));
+        int arr[] = {0,-1,-2,7,-5};
+        System.out.println(new ProductSubArray().calculate(arr));
     }
 
 }
