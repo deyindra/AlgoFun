@@ -59,4 +59,12 @@ public enum TimeWindow {
     public abstract long calculate(final Instant t1, final Instant t2);
 
 
+    public static void main(String[] args) throws InterruptedException {
+        Instant i1 = Instant.now();
+        Thread.sleep(2005L);
+        Instant i2 = Instant.now();
+
+        System.out.println(TimeWindow.SECONDS.calculate(i1,i2));
+    }
+
 }
