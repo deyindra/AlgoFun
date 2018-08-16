@@ -3,64 +3,54 @@ package org.idey.algo.traffic;
 import org.idey.algo.iterator.timeseries.TimeWindow;
 
 import java.time.Instant;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 
 public class WebTraffic {
     private Instant startTime;
-    private Map<Long, Long> trafficCount;
-    private Deque<Long> timeQueue;
+    private ConcurrentMap<Long, Long> trafficCount;
     private TimeWindow window;
-    private int size;
+    private int windowSize;
+    private int slidingSize;
 
-    public WebTraffic(int size) {
-        this(TimeWindow.SECONDS, size);
+    public WebTraffic(int windowSize) {
+        this(TimeWindow.SECONDS, windowSize);
     }
 
-    public WebTraffic(TimeWindow window, int size) {
+    public WebTraffic(TimeWindow window, int windowSize) {
         this.window = window;
-        this.size = size;
-        trafficCount = new HashMap<>();
-        timeQueue = new LinkedList<>();
+        this.windowSize = windowSize;
+        trafficCount = new ConcurrentHashMap<>();
     }
 
 
-    public synchronized void consumedTraffic(){
-        Instant currentTime = Instant.now();
+    public synchronized void consumedTraffic(final Instant currentTime){
         if(startTime==null)
             startTime = currentTime;
-        long timeDiff = window.calculate(startTime,currentTime);
-        long count = 1;
-        if(trafficCount.containsKey(timeDiff)){
-            count = trafficCount.get(timeDiff)+1;
-            trafficCount.put(timeDiff,count);
-        }else{
-            long lastCountedTime = timeQueue.isEmpty() ? 0 : timeQueue.peekLast();
-            //Only happen at the 1st time
-            if(lastCountedTime==timeDiff){
-                timeQueue.offer(timeDiff);
-                trafficCount.put(timeDiff,count);
-            //Immediate next time slot
-            }else if(timeDiff==lastCountedTime+1){
-                timeQueue.offer(timeDiff);
-                trafficCount.put(timeDiff,count);
-            //meaning there is a hole after 0th unit we will get traffic in 2nd or 3rd unit
-            }else if(timeDiff>lastCountedTime+1){
-                long startWindowTime = timeDiff - size +1;
-                if(startWindowTime>timeQueue.peekLast()){
-                    timeQueue.clear();
-                    trafficCount.clear();
-                }else if(startWindowTime<=timeQueue.peekLast()){
-
-
-                }
-            }
-
+        else if(startTime.compareTo(currentTime)>0){
+            throw new IllegalArgumentException("Invalid Current time"+currentTime.toString());
         }
-
+        long timeDiff = window.calculate(startTime,currentTime)+1;
+        long count = trafficCount.getOrDefault(timeDiff,0L);
+        trafficCount.put(timeDiff,++count);
     }
 
+
+    public synchronized Map<Long, Long> getTrafficData(){
+        Instant currentTime = Instant.now();
+        long endTime = window.calculate(startTime,currentTime);
+        long startTime = endTime - windowSize + 1;
+        if(startTime<=0L){
+            startTime = 1L;
+        }
+        Map<Long, Long> map = new HashMap<>();
+        while (startTime<=endTime){
+            map.put(startTime, trafficCount.getOrDefault(startTime,0L));
+            startTime++;
+        }
+        return Collections.unmodifiableMap(map);
+    }
 
 }

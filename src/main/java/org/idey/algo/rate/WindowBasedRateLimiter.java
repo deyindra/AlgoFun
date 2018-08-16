@@ -1,12 +1,14 @@
 package org.idey.algo.rate;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class WindowBasedRateLimiter {
     private volatile long lastScheduledAction;
     private volatile boolean isFirstTime;
+    //Minimum time needed between 2 permits
     private final long minTime;
-    private volatile long storedPermits;
+    private AtomicLong storedPermits;
 
 
     public WindowBasedRateLimiter(final long maxRequest, final long duration, final TimeUnit unit){
@@ -17,7 +19,7 @@ public class WindowBasedRateLimiter {
             throw new IllegalArgumentException("Invalid Parameter");
         }
         this.isFirstTime = true;
-        this.storedPermits = maxRequest;
+        this.storedPermits = new AtomicLong(maxRequest);
         this.minTime = (unit.toMillis(duration)/maxRequest);
     }
 
@@ -26,12 +28,12 @@ public class WindowBasedRateLimiter {
             synchronized(this){
                 isFirstTime = false;
                 lastScheduledAction = System.currentTimeMillis();
-                storedPermits--;
+                storedPermits.decrementAndGet();
             }
         }else{
             addPermit();
-            if(storedPermits > 0) {
-                storedPermits --;
+            if(storedPermits.get() > 0) {
+                storedPermits.decrementAndGet();
             }else{
                 synchronized(this) {
                     Thread.sleep(this.minTime);
@@ -43,9 +45,8 @@ public class WindowBasedRateLimiter {
 
     private void addPermit(){
         final long currentTime = System.currentTimeMillis();
-        final long actualParmitTobeAdded = (currentTime - lastScheduledAction)/minTime;
+        final long numberOfPermitTobeAdded = (currentTime - lastScheduledAction)/minTime;
         lastScheduledAction = currentTime;
-        storedPermits = storedPermits + actualParmitTobeAdded;
+        storedPermits.addAndGet(numberOfPermitTobeAdded);
     }
-
 }

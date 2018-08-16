@@ -90,7 +90,7 @@ public class SlidingTimeSeriesIterator<T extends Comparable<T>> implements Itera
                         map.remove(value);
                     }
                     nextValue = deque.peekLast();
-                }else if(size<=step){
+                }else {
                     nextValue = deque.peekLast();
                     long endStepValue = nextValue + step - size;
                     deque.clear();

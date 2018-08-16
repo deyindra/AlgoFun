@@ -61,7 +61,7 @@ public enum TimeWindow {
 
     public static void main(String[] args) throws InterruptedException {
         Instant i1 = Instant.now();
-        Thread.sleep(2005L);
+        Thread.sleep(2998L);
         Instant i2 = Instant.now();
 
         System.out.println(TimeWindow.SECONDS.calculate(i1,i2));
