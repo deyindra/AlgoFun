@@ -15,38 +15,38 @@ import java.time.temporal.ChronoUnit;
  */
 public enum TimeWindow {
     //Return time difference in seconds
-    SECONDS{
+    SECONDS(1000){
         @Override
         public long calculate(Instant t1, Instant t2) {
             checkValidity(t1, t2);
-            return ChronoUnit.SECONDS.between(t1, t2);
+            return Math.round((double)ChronoUnit.MILLIS.between(t1, t2)/getUnitConversionFromMills());
         }
     },
 
     //Return time difference in minutes
-    MINUTES{
+    MINUTES(1000*60){
         @Override
         public long calculate(Instant t1, Instant t2) {
             checkValidity(t1, t2);
-            return ChronoUnit.MINUTES.between(t1, t2);
+            return Math.round((double)ChronoUnit.MILLIS.between(t1, t2)/getUnitConversionFromMills());
         }
     },
 
     //Return time difference in hours
-    HOURS{
+    HOURS(1000*60*60){
         @Override
         public long calculate(Instant t1, Instant t2) {
             checkValidity(t1, t2);
-            return ChronoUnit.HOURS.between(t1, t2);
+            return Math.round((double)ChronoUnit.MILLIS.between(t1, t2)/getUnitConversionFromMills());
         }
     },
 
     //Return time difference in days
-    DAYS{
+    DAYS(1000*60*60*24){
         @Override
         public long calculate(Instant t1, Instant t2) {
             checkValidity(t1, t2);
-            return ChronoUnit.DAYS.between(t1, t2);
+            return Math.round((double)ChronoUnit.MILLIS.between(t1, t2)/getUnitConversionFromMills());
         }
     };
 
@@ -55,6 +55,15 @@ public enum TimeWindow {
         AssertJ.notNull(t2, "Duration can not be null");
     }
 
+    private long unitConversionFromMills;
+
+    TimeWindow(long unitConversionFromMills) {
+        this.unitConversionFromMills = unitConversionFromMills;
+    }
+
+    public long getUnitConversionFromMills() {
+        return unitConversionFromMills;
+    }
 
     public abstract long calculate(final Instant t1, final Instant t2);
 

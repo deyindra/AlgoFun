@@ -1,21 +1,26 @@
 package org.idey.algo.array;
 
 public class SecondLargestNumber {
-    public static int secondLargest(int[] array){
-        int firstMax = Integer.MIN_VALUE;
-        int secondMax = Integer.MIN_VALUE;
-        for(int x:array){
-            if(x>firstMax){
+    public static Integer secondLargest(int[] array){
+        int firstMax = array[0];
+        Integer secondMax = null;
+        Integer thirdMax = null;
+        for(int i=1;i<array.length;i++){
+            if(array[i]>firstMax){
+                thirdMax = secondMax;
                 secondMax = firstMax;
-                firstMax = x;
-            }else if(x>secondMax && x<firstMax){
-                secondMax = x;
+                firstMax = array[i];
+            }else if(secondMax!=null && array[i]>secondMax && array[i]<firstMax){
+                thirdMax = secondMax;
+                secondMax = array[i];
+            }else if(thirdMax!=null && array[i]>thirdMax && array[i]<secondMax){
+                thirdMax = array[i];
             }
         }
-        return secondMax;
+        return thirdMax;
     }
 
     public static void main(String[] args) {
-        System.out.println(secondLargest(new int[]{5,4,3,8,9,10, 11,11}));
+        System.out.println(secondLargest(new int[]{5,6, 5,5,5,5,5,5}));
     }
 }
