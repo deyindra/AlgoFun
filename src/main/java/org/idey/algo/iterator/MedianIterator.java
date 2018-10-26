@@ -117,4 +117,11 @@ public class MedianIterator<T extends Comparable<T>> implements Iterator<T> {
     public void remove() {
         throw new UnsupportedOperationException("Invalid operations");
     }
+
+    public static void main(String[] args) {
+        MedianIterator<Integer> medianIterator = new MedianIterator<>(new Integer[]{4,1,3,2,5,2,6,11},3);
+        while (medianIterator.hasNext()){
+            System.out.println(medianIterator.next());
+        }
+    }
 }

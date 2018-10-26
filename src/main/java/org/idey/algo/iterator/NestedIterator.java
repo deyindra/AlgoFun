@@ -15,6 +15,7 @@ public class NestedIterator<T> implements Iterator<T> {
     }
 
     private void setAdvance() {
+        hasNext = false;
         while (!stack.isEmpty()){
             Iterator<Nested<T>> it = stack.peek();
             if(it==null || !it.hasNext()){
@@ -30,7 +31,6 @@ public class NestedIterator<T> implements Iterator<T> {
                 }
             }
         }
-        hasNext = false;
     }
 
     @Override
@@ -53,7 +53,10 @@ public class NestedIterator<T> implements Iterator<T> {
         nestedList1.add(new Nested.NestedBuilder<Integer>().withObject(1));
         nestedList1.add(new Nested.NestedBuilder<Integer>().withIterator(Arrays.asList(
                 new Nested.NestedBuilder<Integer>().withObject(5),
-                new Nested.NestedBuilder<Integer>().withObject(6)).iterator()));
+                new Nested.NestedBuilder<Integer>().withObject(6),
+                new Nested.NestedBuilder<Integer>().
+                        withIterator(Collections.singleton(new Nested.NestedBuilder<Integer>().withObject(7)).iterator())
+                ).iterator()));
 
 
         List<Nested<Integer>> nestedList2 = new ArrayList<>();

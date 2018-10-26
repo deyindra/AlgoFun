@@ -102,16 +102,17 @@ public class MergeIterator<T extends Comparable<T>> implements Iterator<T> {
         @SuppressWarnings("ConstantConditions")
         @Override
         public int compareTo(Node<T> o) {
-            T thisObject = this.object;
-            T anotherObject = o.object;
-            if (thisObject == null) {
-                return -1;
-            } else {
-                if(anotherObject == null){
-                    return  1;
-                }else{
+            if(o==null){
+                return 1;
+            }else if(this==o){
+                return 0;
+            }else {
+                T thisObject = this.object;
+                T anotherObject = o.object;
+                if (thisObject == null) {
+                    return -1;
+                } else {
                     return thisObject.compareTo(anotherObject);
-
                 }
             }
         }

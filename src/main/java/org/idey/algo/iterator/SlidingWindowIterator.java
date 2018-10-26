@@ -2,12 +2,7 @@ package org.idey.algo.iterator;
 
 import org.idey.algo.util.AssertJ;
 
-import java.util.Collections;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Sliding/Rolling Window Iterator which return group of object from given {@link Iterator}
@@ -97,7 +92,7 @@ public class SlidingWindowIterator<T> implements Iterator<List<T>>{
                         deque.poll();
                     }
                 //if size less than or equal to step
-                }else if(size<=step){
+                }else {
                     //clear dqueue
                     deque.clear();
                     //Move the pointer in the iterator based on difference of step and size
@@ -113,6 +108,14 @@ public class SlidingWindowIterator<T> implements Iterator<List<T>>{
             if(!deque.isEmpty()) {
                 hasNext = true;
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1,2,3,4,5);
+        Iterator<List<Integer>> it = new SlidingWindowIterator<>(list.iterator(),3,1);
+        while (it.hasNext()){
+            System.out.println(it.next());
         }
     }
 

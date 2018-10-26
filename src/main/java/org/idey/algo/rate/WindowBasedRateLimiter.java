@@ -49,4 +49,17 @@ public class WindowBasedRateLimiter {
         lastScheduledAction = currentTime;
         storedPermits.addAndGet(numberOfPermitTobeAdded);
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        WindowBasedRateLimiter rateLimiter = new WindowBasedRateLimiter(2,1, TimeUnit.SECONDS);
+        rateLimiter.acquire();
+        System.out.println("Hello");
+        rateLimiter.acquire();
+        System.out.println("Hello");
+        rateLimiter.acquire();
+        System.out.println("Hello");
+        rateLimiter.acquire();
+        System.out.println("Hello");
+
+    }
 }
